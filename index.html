@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ========================================================
+       JUDUL WEBSITE — Ganti sesuai nama pasangan
+  ======================================================== -->
+  <title>Undangan Pernikahan — Al & Someone</title>
+
+  <!-- Google Fonts: Sacramento (judul) + Work Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Work+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+  <!-- CSS Kustom -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ============================================================
+       LOADING SCREEN — Tampil sebelum halaman dimuat
+  ============================================================ -->
+  <div id="loading-screen">
+    <div class="loading-inner">
+      <div class="loading-ornament"></div>
+      <p class="loading-text">Bismillahirrahmanirrahim</p>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       HERO SECTION
+       Ganti: nama pasangan, foto, dan tanggal muda
+  ============================================================ -->
+  <section id="hero-section">
+    <!-- Ornamen dekoratif latar -->
+    <div class="hero-ornament hero-ornament--top"></div>
+    <div class="hero-ornament hero-ornament--bottom"></div>
+
+    <div class="hero-content">
+      <!-- Label pembuka -->
+      <p class="hero-label">Bismillah, Kami Mengundang</p>
+
+      <!-- *** GANTI: Nama pasangan *** -->
+      <h1 class="hero-names">
+        <span class="hero-name">Gusti Ahmad Al Ghifari Rizqon</span>
+        <span class="hero-ampersand">&</span>
+        <span class="hero-name">Someone</span>
+      </h1>
+
+      <div class="hero-divider">
+        <span class="divider-line"></span>
+        <span class="divider-icon">✦</span>
+        <span class="divider-line"></span>
+      </div>
+
+      <!-- *** GANTI: Foto pasangan — letakkan file di folder img/ *** -->
+      <!-- Ukuran ideal foto: 600×750 px (portrait), format JPG/PNG   -->
+      <div class="hero-photo-wrapper">
+        <div class="hero-photo-frame">
+          <img src="img/couple.jpg" onerror="this.src='https://placehold.co/500x650/e8d5b0/8b7355?text=Foto+Pasangan'"
+            alt="Foto Al & Someone" class="hero-photo" />
+        </div>
+      </div>
+
+      <!-- *** GANTI: Tanggal singkat di hero *** -->
+      <p class="hero-date-label">Minggu, 05 Juli 2026</p>
+
+      <a href="#acara-section" class="hero-scroll-btn">
+        Lihat Detail Undangan
+        <i class="bi bi-chevron-down"></i>
+      </a>
+    </div>
+  </section>
+  <!-- /hero-section -->
+
+
+  <!-- ============================================================
+       OPENING QUOTE — Ayat / kutipan pembuka
+       Ganti teks kutipan dan sumber sesuai kebutuhan
+  ============================================================ -->
+  <section id="quote-section" class="section-padding">
+    <div class="container">
+      <div class="quote-wrapper fade-in-up">
+        <div class="quote-ornament">﷽</div>
+        <!-- *** GANTI: Kutipan / ayat Al-Qur'an *** -->
+        <blockquote class="quote-text">
+          "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan
+          untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya,
+          dan Dia menjadikan di antaramu rasa kasih dan sayang."
+        </blockquote>
+        <cite class="quote-source">— Q.S. Ar-Rum : 21</cite>
+      </div>
+    </div>
+  </section>
+  <!-- /quote-section -->
+
+
+  <!-- ============================================================
+       COUNTDOWN TIMER
+       Tanggal diatur di file js/countdown.js → variabel weddingDate
+  ============================================================ -->
+  <section id="countdown-section" class="section-padding">
+    <div class="container">
+      <div class="section-header fade-in-up">
+        <h2 class="section-title">Menuju Hari Bahagia</h2>
+        <div class="section-ornament">✦ ✦ ✦</div>
+      </div>
+
+      <!-- Countdown boxes -->
+      <div id="countdown-timer" class="countdown-wrapper fade-in-up">
+        <div class="countdown-box">
+          <span id="countdown-days" class="countdown-number">00</span>
+          <span class="countdown-label">Hari</span>
+        </div>
+        <div class="countdown-separator">:</div>
+        <div class="countdown-box">
+          <span id="countdown-hours" class="countdown-number">00</span>
+          <span class="countdown-label">Jam</span>
+        </div>
+        <div class="countdown-separator">:</div>
+        <div class="countdown-box">
+          <span id="countdown-minutes" class="countdown-number">00</span>
+          <span class="countdown-label">Menit</span>
+        </div>
+        <div class="countdown-separator">:</div>
+        <div class="countdown-box">
+          <span id="countdown-seconds" class="countdown-number">00</span>
+          <span class="countdown-label">Detik</span>
+        </div>
+      </div>
+
+      <!-- Pesan setelah acara berlangsung -->
+      <p id="countdown-done" class="countdown-done-msg" style="display:none;">
+        Alhamdulillah, kami telah resmi menjadi pasangan suami istri. 🤍
+      </p>
+    </div>
+  </section>
+  <!-- /countdown-section -->
+
+
+  <!-- ============================================================
+       DETAIL ACARA
+       Ganti: tanggal, waktu, lokasi, dan iframe Google Maps
+  ============================================================ -->
+  <section id="acara-section" class="section-padding bg-cream">
+    <div class="container">
+      <div class="section-header fade-in-up">
+        <h2 class="section-title">Detail Acara</h2>
+        <div class="section-ornament">✦ ✦ ✦</div>
+      </div>
+
+      <div class="row g-4 justify-content-center">
+
+        <!-- Kartu Akad -->
+        <div class="col-md-5 fade-in-up">
+          <div class="event-card">
+            <div class="event-card__icon"><i class="bi bi-moon-stars"></i></div>
+            <h3 class="event-card__title">Akad Nikah</h3>
+            <ul class="event-card__details">
+              <!-- *** GANTI: Tanggal, waktu, lokasi akad *** -->
+              <li><i class="bi bi-calendar3"></i> Sabtu, 14 Februari 2026</li>
+              <li><i class="bi bi-clock"></i> 08.00 — 10.00 WITA</li>
+              <li><i class="bi bi-geo-alt"></i> Masjid Al-Ikhlas, Banjarbaru</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Kartu Resepsi -->
+        <div class="col-md-5 fade-in-up" style="animation-delay:.15s">
+          <div class="event-card">
+            <div class="event-card__icon"><i class="bi bi-heart"></i></div>
+            <h3 class="event-card__title">Resepsi Pernikahan</h3>
+            <ul class="event-card__details">
+              <!-- *** GANTI: Tanggal, waktu, lokasi resepsi *** -->
+              <li><i class="bi bi-calendar3"></i> Sabtu, 14 Februari 2026</li>
+              <li><i class="bi bi-clock"></i> 11.00 — 15.00 WITA</li>
+              <li><i class="bi bi-geo-alt"></i> Gedung Graha Indah, Banjarbaru</li>
+            </ul>
+          </div>
+        </div>
+
+      </div><!-- /row -->
+
+      <!-- ============================================================
+           GOOGLE MAPS EMBED
+           Cara ganti lokasi:
+           1. Buka maps.google.com → cari lokasi → klik "Bagikan"
+           2. Pilih tab "Sematkan peta" → salin kode iframe
+           3. Tempel di bawah ini, ganti seluruh tag <iframe> lama
+      ============================================================ -->
+      <div class="maps-wrapper fade-in-up">
+        <h4 class="maps-label"><i class="bi bi-map"></i> Lokasi Acara</h4>
+        <!-- *** GANTI: iframe Google Maps *** -->
+        <div class="maps-frame">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127749.57196027268!2d114.72541074999999!3d-3.4654849!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2de423c1eeeeeeef%3A0xeeeeeeeeeeeeeeee!2sBanjarbaru%2C%20South%20Kalimantan!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid"
+            width="100%" height="380" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade" title="Lokasi Acara Pernikahan"></iframe>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- /acara-section -->
+
+
+  <!-- ============================================================
+       GALERI FOTO
+       Cara menambah/mengganti foto:
+       1. Letakkan file gambar di folder img/
+       2. Salin blok <div class="col-..."> dan ganti src foto
+       3. Sesuaikan ukuran kolom Bootstrap jika diperlukan
+  ============================================================ -->
+  <section id="wedding-gallery" class="section-padding">
+    <div class="container">
+      <div class="section-header fade-in-up">
+        <h2 class="section-title">Momen Bersama</h2>
+        <div class="section-ornament">✦ ✦ ✦</div>
+      </div>
+
+      <div class="row g-3" id="gallery-grid">
+
+        <!-- Foto 1 — landscape besar -->
+        <div class="col-12 col-md-8 fade-in-up">
+          <div class="gallery-item gallery-item--tall">
+            <!-- *** GANTI: src foto *** -->
+            <img src="img/gallery-1.jpg" onerror="this.src='https://placehold.co/800x520/e8d5b0/8b7355?text=Foto+1'"
+              alt="Momen bersama 1" class="gallery-img" />
+          </div>
+        </div>
+
+        <!-- Foto 2 — portrait kecil kanan atas -->
+        <div class="col-12 col-md-4 fade-in-up" style="animation-delay:.1s">
+          <div class="gallery-item">
+            <img src="img/gallery-2.jpg" onerror="this.src='https://placehold.co/400x520/f0e4cc/8b7355?text=Foto+2'"
+              alt="Momen bersama 2" class="gallery-img" />
+          </div>
+        </div>
+
+        <!-- Foto 3 -->
+        <div class="col-6 col-md-4 fade-in-up" style="animation-delay:.15s">
+          <div class="gallery-item">
+            <img src="img/gallery-3.jpg" onerror="this.src='https://placehold.co/400x340/faf3e8/8b7355?text=Foto+3'"
+              alt="Momen bersama 3" class="gallery-img" />
+          </div>
+        </div>
+
+        <!-- Foto 4 -->
+        <div class="col-6 col-md-4 fade-in-up" style="animation-delay:.2s">
+          <div class="gallery-item">
+            <img src="img/gallery-4.jpg" onerror="this.src='https://placehold.co/400x340/e8d5b0/8b7355?text=Foto+4'"
+              alt="Momen bersama 4" class="gallery-img" />
+          </div>
+        </div>
+
+        <!-- Foto 5 -->
+        <div class="col-12 col-md-4 fade-in-up" style="animation-delay:.25s">
+          <div class="gallery-item">
+            <img src="img/gallery-5.jpg" onerror="this.src='https://placehold.co/400x340/f7f0e6/8b7355?text=Foto+5'"
+              alt="Momen bersama 5" class="gallery-img" />
+          </div>
+        </div>
+
+        <!-- Foto 6 — landscape penuh -->
+        <div class="col-12 fade-in-up" style="animation-delay:.3s">
+          <div class="gallery-item">
+            <img src="img/gallery-6.jpg"
+              onerror="this.src='https://placehold.co/1200x380/e8d5b0/8b7355?text=Foto+6+-+Panorama'"
+              alt="Momen bersama 6" class="gallery-img" />
+          </div>
+        </div>
+
+      </div><!-- /gallery-grid -->
+    </div>
+  </section>
+  <!-- /wedding-gallery -->
+
+
+  <!-- ============================================================
+       FOOTER
+       Ganti nama pasangan dan tahun
+  ============================================================ -->
+  <footer id="footer-section">
+    <div class="footer-ornament-top"></div>
+    <div class="container text-center">
+      <div class="footer-inner">
+        <p class="footer-thanks">Terima Kasih</p>
+        <!-- *** GANTI: Nama pasangan *** -->
+        <h2 class="footer-names">Al & Someone</h2>
+        <p class="footer-message">
+          Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i
+          berkenan hadir dan memberikan doa restu kepada kami.
+        </p>
+        <div class="footer-divider">
+          <span class="divider-line"></span>
+          <span class="divider-icon">✦</span>
+          <span class="divider-line"></span>
+        </div>
+        <!-- *** GANTI: Tahun *** -->
+        <p class="footer-copy">© 2026 — Dengan Cinta, Al & Someone</p>
+      </div>
+    </div>
+  </footer>
+  <!-- /footer-section -->
+
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Countdown Timer JS -->
+  <script src="countdown.js"></script>
+
+  <!-- Animasi scroll & loading JS -->
+  <script src="main.js"></script>
+
+</body>
+
+</html>
