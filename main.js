@@ -1,31 +1,43 @@
 /* ================================================================
-   main.js — Loading Screen, Animasi Scroll & Autoplay Audio
+   main.js — Loading, Scroll Animation, Autoplay Audio, Preload
 
-   Berisi:
-   1. Loading screen (hilang setelah DOM siap)
-   2. Animasi fade-in-up saat elemen scroll masuk viewport
-   3. Musik latar — autoplay otomatis tanpa tombol
+   1. Loading screen — fade-out cepat tanpa menahan render
+   2. Fade-in-up saat scroll (IntersectionObserver)
+   3. Musik latar — autoplay + event listener fallback
+   4. Preload gambar galeri agar tampil instan
 ================================================================ */
 
 (function () {
   'use strict';
 
+  var cfg = window.WEDDING_CONFIG || {};
+
   /* ==============================================================
-     1. LOADING SCREEN
-     Hilang setelah DOM siap (pakai DOMContentLoaded agar cepat)
+     1. PRELOAD GAMBAR GALERI — tampil instan tanpa delay
+  ============================================================== */
+  var galleryList = cfg.galleryImages || [
+    'img/gallery-1.jpg', 'img/gallery-2.jpg', 'img/gallery-3.jpg',
+    'img/gallery-4.jpg', 'img/gallery-5.jpg', 'img/gallery-6.jpg'
+  ];
+
+  galleryList.forEach(function (src) {
+    var img = new Image();
+    img.decoding = 'async';
+    img.src = src;
+  });
+
+
+  /* ==============================================================
+     2. LOADING SCREEN — fade-out cepat (300ms), tidak blokir konten
   ============================================================== */
   var loadingScreen = document.getElementById('loading-screen');
 
   function hideLoading() {
     if (!loadingScreen) return;
-    setTimeout(function () {
-      loadingScreen.classList.add('hidden');
-      loadingScreen.addEventListener('transitionend', function () {
-        if (loadingScreen.parentNode) {
-          loadingScreen.parentNode.removeChild(loadingScreen);
-        }
-      }, { once: true });
-    }, 800);
+    loadingScreen.classList.add('hidden');
+    loadingScreen.addEventListener('transitionend', function () {
+      if (loadingScreen.parentNode) loadingScreen.remove();
+    }, { once: true });
   }
 
   if (document.readyState === 'loading') {
@@ -36,8 +48,7 @@
 
 
   /* ==============================================================
-     2. ANIMASI FADE-IN-UP SAAT SCROLL
-     IntersectionObserver — efisien, tidak blokir main thread
+     3. ANIMASI FADE-IN-UP SAAT SCROLL (kecuali galeri)
   ============================================================== */
   var animatedEls = document.querySelectorAll('.fade-in-up');
 
@@ -49,7 +60,7 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+    }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
 
     animatedEls.forEach(function (el) { observer.observe(el); });
   } else {
@@ -58,36 +69,53 @@
 
 
   /* ==============================================================
-     3. MUSIK LATAR — Autoplay Otomatis (tanpa tombol)
+     4. MUSIK LATAR — autoplay instan + fallback interaksi
 
-     Strategi (mengatasi kebijakan autoplay modern browser):
-     a) <audio> di HTML diberi atribut `muted` → browser izinkan autoplay
-     b) Setelah play() berhasil, langsung unmute + set volume
-     c) Jika browser masih blokir (rare), coba saat interaksi pertama
+     Strategi:
+     a) atribut autoplay muted playsinline di HTML → browser izinkan
+     b) play() segera saat script jalan
+     c) unmute setelah play berhasil
+     d) jika diblokir → coba lagi saat tap/scroll pertama
   ============================================================== */
   var bgMusic = document.getElementById('bg-music');
   if (!bgMusic) return;
 
-  var TARGET_VOLUME = 0.45; /* Volume 0.0 – 1.0. *** GANTI jika perlu *** */
+  var TARGET_VOLUME = cfg.audioVolume != null ? cfg.audioVolume : 0.45;
+  var audioStarted = false;
 
-  /* Fungsi unmute + set volume setelah play berhasil */
-  function onPlaySuccess() {
-    bgMusic.muted = false;
-    bgMusic.volume = TARGET_VOLUME;
+  if (cfg.audioSrc) {
+    var sourceEl = bgMusic.querySelector('source');
+    if (sourceEl && sourceEl.getAttribute('src') !== cfg.audioSrc) {
+      sourceEl.src = cfg.audioSrc;
+      bgMusic.load();
+    }
   }
 
-  /* Coba autoplay segera (audio masih muted → browser izinkan) */
-  var playPromise = bgMusic.play();
+  function startMusic() {
+    if (audioStarted) return;
+    bgMusic.volume = TARGET_VOLUME;
 
-  if (playPromise !== undefined) {
-    playPromise
-      .then(onPlaySuccess)   /* Berhasil → unmute */
-      .catch(function () {   /* Diblokir → tunggu interaksi pertama */
+    var promise = bgMusic.play();
+    if (promise === undefined) {
+      bgMusic.muted = false;
+      audioStarted = true;
+      return;
+    }
+
+    promise
+      .then(function () {
+        bgMusic.muted = false;
+        audioStarted = true;
+      })
+      .catch(function () {
+        /* Fallback: mulai saat interaksi pertama pengunjung */
         var events = ['click', 'touchstart', 'keydown', 'scroll'];
         function tryPlay() {
           bgMusic.muted = false;
           bgMusic.volume = TARGET_VOLUME;
-          bgMusic.play().catch(function () { });
+          bgMusic.play()
+            .then(function () { audioStarted = true; })
+            .catch(function () {});
           events.forEach(function (e) {
             document.removeEventListener(e, tryPlay);
           });
@@ -98,11 +126,11 @@
       });
   }
 
-  /* Jaga volume agar tidak terlalu pelan dari luar */
-  bgMusic.addEventListener('volumechange', function () {
-    if (!bgMusic.muted && bgMusic.volume < 0.15) {
-      bgMusic.volume = 0.15;
-    }
-  });
+  /* Coba play segera */
+  startMusic();
+
+  /* Pastikan play saat metadata audio siap (jika belum mulai) */
+  bgMusic.addEventListener('canplaythrough', startMusic, { once: true });
+  bgMusic.addEventListener('loadeddata', startMusic, { once: true });
 
 })();
