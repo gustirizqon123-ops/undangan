@@ -859,6 +859,59 @@ a {
 }
 
 
+/* ================================================================
+   12. MUSIC BUTTON — Kontrol play/pause musik latar
+================================================================ */
+#music-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9000;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid var(--color-gold-light);
+  background: var(--color-white);
+  color: var(--color-gold-dark);
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-gold);
+  transition: background var(--transition-base),
+    color var(--transition-base),
+    transform var(--transition-base),
+    box-shadow var(--transition-base);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+#music-btn:hover,
+#music-btn:focus-visible {
+  background: var(--color-gold);
+  color: var(--color-white);
+  transform: scale(1.08);
+  box-shadow: 0 6px 24px rgba(201, 168, 76, 0.45);
+  outline: none;
+}
+
+#music-btn.is-playing {
+  background: var(--color-gold);
+  color: var(--color-white);
+}
+
+#music-btn-icon {
+  display: block;
+  line-height: 1;
+  transform: translateX(1px);
+}
+
+#music-btn.is-playing #music-btn-icon {
+  transform: none;
+}
+
 
 /* ================================================================
    13. UTILITIES — Animasi & Ornamen
@@ -989,6 +1042,14 @@ a {
   .maps-frame {
     aspect-ratio: 4 / 3;
     min-height: 260px;
+  }
+
+  #music-btn {
+    bottom: 14px;
+    right: 14px;
+    width: 44px;
+    height: 44px;
+    font-size: 1rem;
   }
 }
 

@@ -3,8 +3,9 @@
 
    1. Loading screen — fade-out cepat tanpa menahan render
    2. Fade-in-up saat scroll (IntersectionObserver)
-   3. Musik latar — autoplay + event listener fallback
-   4. Preload gambar galeri agar tampil instan
+   3. Musik latar — muted autoplay → unmute setelah play berhasil
+   4. Tombol #music-btn — toggle ▶ / ⏸ (elemen di HTML)
+   5. Preload gambar galeri agar tampil instan
 ================================================================ */
 
 (function () {
@@ -69,15 +70,18 @@
 
 
   /* ==============================================================
-     4. MUSIK LATAR — autoplay instan + fallback interaksi
+     4. MUSIK LATAR + TOMBOL #music-btn
 
-     Strategi:
-     a) atribut autoplay muted playsinline di HTML → browser izinkan
-     b) play() segera saat script jalan
-     c) unmute setelah play berhasil
-     d) jika diblokir → coba lagi saat tap/scroll pertama
+     Autoplay (trik browser modern):
+     a) <audio muted autoplay playsinline> di HTML
+     b) play() → unmute + set volume setelah promise resolve
+     c) jika diblokir → coba lagi saat interaksi pertama
+     d) tombol ▶/⏸ sinkron dengan status play/pause
   ============================================================== */
   var bgMusic = document.getElementById('bg-music');
+  var musicBtn = document.getElementById('music-btn');
+  var musicBtnIcon = document.getElementById('music-btn-icon');
+
   if (!bgMusic) return;
 
   var TARGET_VOLUME = cfg.audioVolume != null ? cfg.audioVolume : 0.45;
@@ -91,31 +95,54 @@
     }
   }
 
-  function startMusic() {
-    if (audioStarted) return;
-    bgMusic.volume = TARGET_VOLUME;
+  /* Perbarui ikon tombol: ▶ = jeda, ⏸ = sedang putar */
+  function syncMusicBtn() {
+    if (!musicBtn || !musicBtnIcon) return;
 
+    var isPlaying = !bgMusic.paused && !bgMusic.muted;
+
+    if (isPlaying) {
+      musicBtnIcon.textContent = '\u23F8'; /* ⏸ */
+      musicBtn.setAttribute('aria-label', 'Jeda musik');
+      musicBtn.setAttribute('title', 'Jeda musik');
+      musicBtn.classList.add('is-playing');
+    } else {
+      musicBtnIcon.textContent = '\u25B6'; /* ▶ */
+      musicBtn.setAttribute('aria-label', 'Putar musik');
+      musicBtn.setAttribute('title', 'Putar musik');
+      musicBtn.classList.remove('is-playing');
+    }
+  }
+
+  /* Unmute setelah play() berhasil */
+  function onPlaySuccess() {
+    bgMusic.muted = false;
+    bgMusic.volume = TARGET_VOLUME;
+    audioStarted = true;
+    syncMusicBtn();
+  }
+
+  function startMusic() {
+    if (audioStarted && !bgMusic.paused) return;
+
+    bgMusic.volume = TARGET_VOLUME;
     var promise = bgMusic.play();
+
     if (promise === undefined) {
-      bgMusic.muted = false;
-      audioStarted = true;
+      onPlaySuccess();
       return;
     }
 
     promise
-      .then(function () {
-        bgMusic.muted = false;
-        audioStarted = true;
-      })
+      .then(onPlaySuccess)
       .catch(function () {
-        /* Fallback: mulai saat interaksi pertama pengunjung */
+        syncMusicBtn();
         var events = ['click', 'touchstart', 'keydown', 'scroll'];
         function tryPlay() {
-          bgMusic.muted = false;
           bgMusic.volume = TARGET_VOLUME;
           bgMusic.play()
-            .then(function () { audioStarted = true; })
-            .catch(function () {});
+            .then(onPlaySuccess)
+            .catch(function () { syncMusicBtn(); });
           events.forEach(function (e) {
             document.removeEventListener(e, tryPlay);
           });
@@ -126,10 +153,28 @@
       });
   }
 
-  /* Coba play segera */
+  /* Toggle play/pause via tombol HTML */
+  if (musicBtn) {
+    musicBtn.addEventListener('click', function () {
+      if (bgMusic.paused || bgMusic.muted) {
+        bgMusic.muted = false;
+        bgMusic.volume = TARGET_VOLUME;
+        bgMusic.play()
+          .then(onPlaySuccess)
+          .catch(function () { syncMusicBtn(); });
+      } else {
+        bgMusic.pause();
+        syncMusicBtn();
+      }
+    });
+  }
+
+  bgMusic.addEventListener('play', syncMusicBtn);
+  bgMusic.addEventListener('pause', syncMusicBtn);
+
+  syncMusicBtn();
   startMusic();
 
-  /* Pastikan play saat metadata audio siap (jika belum mulai) */
   bgMusic.addEventListener('canplaythrough', startMusic, { once: true });
   bgMusic.addEventListener('loadeddata', startMusic, { once: true });
 

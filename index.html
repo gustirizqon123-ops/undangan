@@ -52,11 +52,19 @@
        AUDIO PLAYER — Musik latar otomatis
        *** GANTI: src di config.js → audioSrc ***
        Letakkan file MP3 di folder audio/
-       muted + autoplay = browser izinkan; JS unmute setelah play
+
+       Trik autoplay browser modern:
+       1. Atribut muted wajib ada di <audio> → browser izinkan autoplay
+       2. JS memanggil play(), lalu unmute setelah play() berhasil
   ============================================================ -->
   <audio id="bg-music" autoplay loop muted playsinline preload="auto">
     <source src="audio/lagu.mp3" type="audio/mpeg" />
   </audio>
+
+  <!-- Tombol kontrol musik — ikon ▶ (jeda) / ⏸ (putar) diatur oleh main.js -->
+  <button id="music-btn" type="button" aria-label="Putar musik" title="Musik latar">
+    <span id="music-btn-icon" aria-hidden="true">▶</span>
+  </button>
 
   <!-- ============================================================
        LOADING SCREEN — Fade-out cepat, tidak menahan render
