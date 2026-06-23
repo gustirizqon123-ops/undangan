@@ -5,12 +5,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- ========================================================
-       JUDUL WEBSITE — Ganti sesuai nama pasangan
-  ======================================================== -->
-  <title>Undangan Pernikahan — Al & Someone</title>
+  <!-- SEO Meta Tags -->
+  <title>Undangan Pernikahan — Al & Someone | 05 Juli 2026</title>
+  <meta name="description" content="Dengan penuh kebahagiaan kami mengundang Bapak/Ibu/Saudara/i untuk hadir dalam acara pernikahan Gusti Ahmad Al Ghifari Rizqon & Someone, Minggu 05 Juli 2026 di Banjarbaru." />
+  <meta name="robots" content="index, follow" />
 
-  <!-- Google Fonts: Sacramento (judul) + Work Sans (body) -->
+  <!-- Open Graph (untuk share di sosmed) -->
+  <meta property="og:title" content="Undangan Pernikahan Al & Someone" />
+  <meta property="og:description" content="Kami mengundang Anda untuk merayakan hari bahagia kami, 05 Juli 2026." />
+  <meta property="og:type" content="website" />
+
+  <!-- Preload font kritis agar tidak ada FOUT -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Work+Sans:wght@300;400;500;600&display=swap"
@@ -29,23 +34,25 @@
 <body>
 
   <!-- ============================================================
-     AUDIO PLAYER — Musik latar website
-     Autoplay dengan tombol play/pause di pojok layar
-============================================================ -->
+       AUDIO PLAYER — Musik latar website
+       autoplay + muted trick untuk kompatibilitas browser modern
+  ============================================================ -->
+  <!-- Tag audio: muted dulu agar autoplay diizinkan browser, lalu unmute via JS -->
+  <audio id="bg-music" loop preload="auto" muted>
+    <!-- *** GANTI: nama file lagu kamu *** -->
+    <source src="audio/lagu.mp3" type="audio/mpeg" />
+    Browser kamu tidak mendukung audio.
+  </audio>
 
-<!-- Tag audio HTML5 — tidak terlihat, dikendalikan tombol -->
-<audio id="bg-music" loop preload="auto">
-  <!-- *** GANTI: nama file lagu kamu *** -->
-  <source src="audio/lagu.mp3" type="audio/mpeg" />
-  Browser kamu tidak mendukung audio.
-</audio>
-
-
+  <!-- Tombol Play/Pause musik mengambang -->
+  <button id="music-btn" aria-label="Play/Pause Musik" title="Play/Pause Musik">
+    <i class="bi bi-music-note-beamed" id="music-icon"></i>
+  </button>
 
   <!-- ============================================================
        LOADING SCREEN — Tampil sebelum halaman dimuat
   ============================================================ -->
-  <div id="loading-screen">
+  <div id="loading-screen" role="status" aria-live="polite">
     <div class="loading-inner">
       <div class="loading-ornament"></div>
       <p class="loading-text">Bismillahirrahmanirrahim</p>
@@ -58,8 +65,8 @@
   ============================================================ -->
   <section id="hero-section">
     <!-- Ornamen dekoratif latar -->
-    <div class="hero-ornament hero-ornament--top"></div>
-    <div class="hero-ornament hero-ornament--bottom"></div>
+    <div class="hero-ornament hero-ornament--top" aria-hidden="true"></div>
+    <div class="hero-ornament hero-ornament--bottom" aria-hidden="true"></div>
 
     <div class="hero-content">
       <!-- Label pembuka -->
@@ -72,7 +79,7 @@
         <span class="hero-name">Someone</span>
       </h1>
 
-      <div class="hero-divider">
+      <div class="hero-divider" aria-hidden="true">
         <span class="divider-line"></span>
         <span class="divider-icon">✦</span>
         <span class="divider-line"></span>
@@ -82,17 +89,24 @@
       <!-- Ukuran ideal foto: 600×750 px (portrait), format JPG/PNG   -->
       <div class="hero-photo-wrapper">
         <div class="hero-photo-frame">
-          <img src="img/couple.jpg" onerror="this.src='https://placehold.co/500x650/e8d5b0/8b7355?text=Foto+Pasangan'"
-            alt="Foto Al & Someone" class="hero-photo" />
+          <img
+            src="img/couple.jpg"
+            onerror="this.src='https://placehold.co/500x650/e8d5b0/8b7355?text=Foto+Pasangan'"
+            alt="Foto Al & Someone"
+            class="hero-photo"
+            width="500"
+            height="650"
+            loading="eager"
+          />
         </div>
       </div>
 
       <!-- *** GANTI: Tanggal singkat di hero *** -->
       <p class="hero-date-label">Minggu, 05 Juli 2026</p>
 
-      <a href="#acara-section" class="hero-scroll-btn">
+      <a href="#acara-section" class="hero-scroll-btn" id="hero-scroll-link">
         Lihat Detail Undangan
-        <i class="bi bi-chevron-down"></i>
+        <i class="bi bi-chevron-down" aria-hidden="true"></i>
       </a>
     </div>
   </section>
@@ -101,12 +115,11 @@
 
   <!-- ============================================================
        OPENING QUOTE — Ayat / kutipan pembuka
-       Ganti teks kutipan dan sumber sesuai kebutuhan
   ============================================================ -->
   <section id="quote-section" class="section-padding">
     <div class="container">
       <div class="quote-wrapper fade-in-up">
-        <div class="quote-ornament">﷽</div>
+        <div class="quote-ornament" aria-hidden="true">﷽</div>
         <!-- *** GANTI: Kutipan / ayat Al-Qur'an *** -->
         <blockquote class="quote-text">
           "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan
@@ -122,40 +135,40 @@
 
   <!-- ============================================================
        COUNTDOWN TIMER
-       Tanggal diatur di file js/countdown.js → variabel weddingDate
+       Tanggal diatur di file countdown.js → variabel weddingDate
   ============================================================ -->
   <section id="countdown-section" class="section-padding">
     <div class="container">
       <div class="section-header fade-in-up">
         <h2 class="section-title">Menuju Hari Bahagia</h2>
-        <div class="section-ornament">✦ ✦ ✦</div>
+        <div class="section-ornament" aria-hidden="true">✦ ✦ ✦</div>
       </div>
 
       <!-- Countdown boxes -->
-      <div id="countdown-timer" class="countdown-wrapper fade-in-up">
+      <div id="countdown-timer" class="countdown-wrapper fade-in-up" aria-live="polite" aria-label="Hitung mundur hari pernikahan">
         <div class="countdown-box">
-          <span id="countdown-days" class="countdown-number">00</span>
+          <span id="countdown-days" class="countdown-number" aria-label="Hari">00</span>
           <span class="countdown-label">Hari</span>
         </div>
-        <div class="countdown-separator">:</div>
+        <div class="countdown-separator" aria-hidden="true">:</div>
         <div class="countdown-box">
-          <span id="countdown-hours" class="countdown-number">00</span>
+          <span id="countdown-hours" class="countdown-number" aria-label="Jam">00</span>
           <span class="countdown-label">Jam</span>
         </div>
-        <div class="countdown-separator">:</div>
+        <div class="countdown-separator" aria-hidden="true">:</div>
         <div class="countdown-box">
-          <span id="countdown-minutes" class="countdown-number">00</span>
+          <span id="countdown-minutes" class="countdown-number" aria-label="Menit">00</span>
           <span class="countdown-label">Menit</span>
         </div>
-        <div class="countdown-separator">:</div>
+        <div class="countdown-separator" aria-hidden="true">:</div>
         <div class="countdown-box">
-          <span id="countdown-seconds" class="countdown-number">00</span>
+          <span id="countdown-seconds" class="countdown-number" aria-label="Detik">00</span>
           <span class="countdown-label">Detik</span>
         </div>
       </div>
 
       <!-- Pesan setelah acara berlangsung -->
-      <p id="countdown-done" class="countdown-done-msg" style="display:none;">
+      <p id="countdown-done" class="countdown-done-msg" style="display:none;" aria-live="assertive">
         Alhamdulillah, kami telah resmi menjadi pasangan suami istri. 🤍
       </p>
     </div>
@@ -171,7 +184,7 @@
     <div class="container">
       <div class="section-header fade-in-up">
         <h2 class="section-title">Detail Acara</h2>
-        <div class="section-ornament">✦ ✦ ✦</div>
+        <div class="section-ornament" aria-hidden="true">✦ ✦ ✦</div>
       </div>
 
       <div class="row g-4 justify-content-center">
@@ -179,13 +192,13 @@
         <!-- Kartu Akad -->
         <div class="col-md-5 fade-in-up">
           <div class="event-card">
-            <div class="event-card__icon"><i class="bi bi-moon-stars"></i></div>
+            <div class="event-card__icon" aria-hidden="true"><i class="bi bi-moon-stars"></i></div>
             <h3 class="event-card__title">Akad Nikah</h3>
             <ul class="event-card__details">
               <!-- *** GANTI: Tanggal, waktu, lokasi akad *** -->
-              <li><i class="bi bi-calendar3"></i> Sabtu, 14 Februari 2026</li>
-              <li><i class="bi bi-clock"></i> 08.00 — 10.00 WITA</li>
-              <li><i class="bi bi-geo-alt"></i> Masjid Al-Ikhlas, Banjarbaru</li>
+              <li><i class="bi bi-calendar3" aria-hidden="true"></i> Sabtu, 14 Februari 2026</li>
+              <li><i class="bi bi-clock" aria-hidden="true"></i> 08.00 — 10.00 WITA</li>
+              <li><i class="bi bi-geo-alt" aria-hidden="true"></i> Masjid Al-Ikhlas, Banjarbaru</li>
             </ul>
           </div>
         </div>
@@ -193,13 +206,13 @@
         <!-- Kartu Resepsi -->
         <div class="col-md-5 fade-in-up" style="animation-delay:.15s">
           <div class="event-card">
-            <div class="event-card__icon"><i class="bi bi-heart"></i></div>
+            <div class="event-card__icon" aria-hidden="true"><i class="bi bi-heart"></i></div>
             <h3 class="event-card__title">Resepsi Pernikahan</h3>
             <ul class="event-card__details">
               <!-- *** GANTI: Tanggal, waktu, lokasi resepsi *** -->
-              <li><i class="bi bi-calendar3"></i> Sabtu, 14 Februari 2026</li>
-              <li><i class="bi bi-clock"></i> 11.00 — 15.00 WITA</li>
-              <li><i class="bi bi-geo-alt"></i> Gedung Graha Indah, Banjarbaru</li>
+              <li><i class="bi bi-calendar3" aria-hidden="true"></i> Sabtu, 14 Februari 2026</li>
+              <li><i class="bi bi-clock" aria-hidden="true"></i> 11.00 — 15.00 WITA</li>
+              <li><i class="bi bi-geo-alt" aria-hidden="true"></i> Gedung Graha Indah, Banjarbaru</li>
             </ul>
           </div>
         </div>
@@ -214,13 +227,19 @@
            3. Tempel di bawah ini, ganti seluruh tag <iframe> lama
       ============================================================ -->
       <div class="maps-wrapper fade-in-up">
-        <h4 class="maps-label"><i class="bi bi-map"></i> Lokasi Acara</h4>
+        <h4 class="maps-label"><i class="bi bi-map" aria-hidden="true"></i> Lokasi Acara</h4>
         <!-- *** GANTI: iframe Google Maps *** -->
         <div class="maps-frame">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127749.57196027268!2d114.72541074999999!3d-3.4654849!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2de423c1eeeeeeef%3A0xeeeeeeeeeeeeeeee!2sBanjarbaru%2C%20South%20Kalimantan!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid"
-            width="100%" height="380" style="border:0;" allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade" title="Lokasi Acara Pernikahan"></iframe>
+            width="100%"
+            height="380"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Lokasi Acara Pernikahan">
+          </iframe>
         </div>
       </div>
 
@@ -230,7 +249,7 @@
 
 
   <!-- ============================================================
-       GALERI FOTO
+       GALERI FOTO — Bootstrap Grid Responsive
        Cara menambah/mengganti foto:
        1. Letakkan file gambar di folder img/
        2. Salin blok <div class="col-..."> dan ganti src foto
@@ -240,7 +259,7 @@
     <div class="container">
       <div class="section-header fade-in-up">
         <h2 class="section-title">Momen Bersama</h2>
-        <div class="section-ornament">✦ ✦ ✦</div>
+        <div class="section-ornament" aria-hidden="true">✦ ✦ ✦</div>
       </div>
 
       <div class="row g-3" id="gallery-grid">
@@ -249,49 +268,78 @@
         <div class="col-12 col-md-8 fade-in-up">
           <div class="gallery-item gallery-item--tall">
             <!-- *** GANTI: src foto *** -->
-            <img src="img/gallery-1.jpg" onerror="this.src='https://placehold.co/800x520/e8d5b0/8b7355?text=Foto+1'"
-              alt="Momen bersama 1" class="gallery-img" />
+            <img
+              src="img/gallery-1.jpg"
+              onerror="this.src='https://placehold.co/800x520/e8d5b0/8b7355?text=Foto+1'"
+              alt="Momen bersama 1"
+              class="gallery-img"
+              loading="lazy"
+            />
           </div>
         </div>
 
         <!-- Foto 2 — portrait kecil kanan atas -->
         <div class="col-12 col-md-4 fade-in-up" style="animation-delay:.1s">
-          <div class="gallery-item">
-            <img src="img/gallery-2.jpg" onerror="this.src='https://placehold.co/400x520/f0e4cc/8b7355?text=Foto+2'"
-              alt="Momen bersama 2" class="gallery-img" />
+          <div class="gallery-item gallery-item--tall">
+            <img
+              src="img/gallery-2.jpg"
+              onerror="this.src='https://placehold.co/400x520/f0e4cc/8b7355?text=Foto+2'"
+              alt="Momen bersama 2"
+              class="gallery-img"
+              loading="lazy"
+            />
           </div>
         </div>
 
         <!-- Foto 3 -->
         <div class="col-6 col-md-4 fade-in-up" style="animation-delay:.15s">
           <div class="gallery-item">
-            <img src="img/gallery-3.jpg" onerror="this.src='https://placehold.co/400x340/faf3e8/8b7355?text=Foto+3'"
-              alt="Momen bersama 3" class="gallery-img" />
+            <img
+              src="img/gallery-3.jpg"
+              onerror="this.src='https://placehold.co/400x340/faf3e8/8b7355?text=Foto+3'"
+              alt="Momen bersama 3"
+              class="gallery-img"
+              loading="lazy"
+            />
           </div>
         </div>
 
         <!-- Foto 4 -->
         <div class="col-6 col-md-4 fade-in-up" style="animation-delay:.2s">
           <div class="gallery-item">
-            <img src="img/gallery-4.jpg" onerror="this.src='https://placehold.co/400x340/e8d5b0/8b7355?text=Foto+4'"
-              alt="Momen bersama 4" class="gallery-img" />
+            <img
+              src="img/gallery-4.jpg"
+              onerror="this.src='https://placehold.co/400x340/e8d5b0/8b7355?text=Foto+4'"
+              alt="Momen bersama 4"
+              class="gallery-img"
+              loading="lazy"
+            />
           </div>
         </div>
 
         <!-- Foto 5 -->
         <div class="col-12 col-md-4 fade-in-up" style="animation-delay:.25s">
           <div class="gallery-item">
-            <img src="img/gallery-5.jpg" onerror="this.src='https://placehold.co/400x340/f7f0e6/8b7355?text=Foto+5'"
-              alt="Momen bersama 5" class="gallery-img" />
+            <img
+              src="img/gallery-5.jpg"
+              onerror="this.src='https://placehold.co/400x340/f7f0e6/8b7355?text=Foto+5'"
+              alt="Momen bersama 5"
+              class="gallery-img"
+              loading="lazy"
+            />
           </div>
         </div>
 
         <!-- Foto 6 — landscape penuh -->
         <div class="col-12 fade-in-up" style="animation-delay:.3s">
           <div class="gallery-item">
-            <img src="img/gallery-6.jpg"
+            <img
+              src="img/gallery-6.jpg"
               onerror="this.src='https://placehold.co/1200x380/e8d5b0/8b7355?text=Foto+6+-+Panorama'"
-              alt="Momen bersama 6" class="gallery-img" />
+              alt="Momen bersama 6"
+              class="gallery-img"
+              loading="lazy"
+            />
           </div>
         </div>
 
@@ -306,7 +354,7 @@
        Ganti nama pasangan dan tahun
   ============================================================ -->
   <footer id="footer-section">
-    <div class="footer-ornament-top"></div>
+    <div class="footer-ornament-top" aria-hidden="true"></div>
     <div class="container text-center">
       <div class="footer-inner">
         <p class="footer-thanks">Terima Kasih</p>
@@ -316,7 +364,7 @@
           Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i
           berkenan hadir dan memberikan doa restu kepada kami.
         </p>
-        <div class="footer-divider">
+        <div class="footer-divider" aria-hidden="true">
           <span class="divider-line"></span>
           <span class="divider-icon">✦</span>
           <span class="divider-line"></span>
@@ -329,14 +377,14 @@
   <!-- /footer-section -->
 
 
-  <!-- Bootstrap 5 JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Bootstrap 5 JS (defer agar tidak blokir render) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 
   <!-- Countdown Timer JS -->
-  <script src="countdown.js"></script>
+  <script src="countdown.js" defer></script>
 
   <!-- Animasi scroll & loading JS -->
-  <script src="main.js"></script>
+  <script src="main.js" defer></script>
 
 </body>
 
