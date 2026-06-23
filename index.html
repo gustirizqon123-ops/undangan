@@ -7,7 +7,8 @@
 
   <!-- SEO Meta Tags -->
   <title>Undangan Pernikahan — Al & Someone | 05 Juli 2026</title>
-  <meta name="description" content="Dengan penuh kebahagiaan kami mengundang Bapak/Ibu/Saudara/i untuk hadir dalam acara pernikahan Gusti Ahmad Al Ghifari Rizqon & Someone, Minggu 05 Juli 2026 di Banjarbaru." />
+  <meta name="description"
+    content="Dengan penuh kebahagiaan kami mengundang Bapak/Ibu/Saudara/i untuk hadir dalam acara pernikahan Gusti Ahmad Al Ghifari Rizqon & Someone, Minggu 05 Juli 2026 di Banjarbaru." />
   <meta name="robots" content="index, follow" />
 
   <!-- Open Graph (untuk share di sosmed) -->
@@ -34,20 +35,14 @@
 <body>
 
   <!-- ============================================================
-       AUDIO PLAYER — Musik latar website
-       autoplay + muted trick untuk kompatibilitas browser modern
+       AUDIO PLAYER — Musik latar otomatis
+       *** GANTI: src audio/lagu.mp3 dengan nama file musik kamu ***
+       Letakkan file MP3 di folder audio/
   ============================================================ -->
-  <!-- Tag audio: muted dulu agar autoplay diizinkan browser, lalu unmute via JS -->
+  <!-- muted saat pertama agar browser izinkan autoplay; JS akan unmute setelah play -->
   <audio id="bg-music" loop preload="auto" muted>
-    <!-- *** GANTI: nama file lagu kamu *** -->
     <source src="audio/lagu.mp3" type="audio/mpeg" />
-    Browser kamu tidak mendukung audio.
   </audio>
-
-  <!-- Tombol Play/Pause musik mengambang -->
-  <button id="music-btn" aria-label="Play/Pause Musik" title="Play/Pause Musik">
-    <i class="bi bi-music-note-beamed" id="music-icon"></i>
-  </button>
 
   <!-- ============================================================
        LOADING SCREEN — Tampil sebelum halaman dimuat
@@ -89,15 +84,8 @@
       <!-- Ukuran ideal foto: 600×750 px (portrait), format JPG/PNG   -->
       <div class="hero-photo-wrapper">
         <div class="hero-photo-frame">
-          <img
-            src="img/couple.jpg"
-            onerror="this.src='https://placehold.co/500x650/e8d5b0/8b7355?text=Foto+Pasangan'"
-            alt="Foto Al & Someone"
-            class="hero-photo"
-            width="500"
-            height="650"
-            loading="eager"
-          />
+          <img src="img/couple.jpg" onerror="this.src='https://placehold.co/500x650/e8d5b0/8b7355?text=Foto+Pasangan'"
+            alt="Foto Al & Someone" class="hero-photo" width="500" height="650" loading="eager" />
         </div>
       </div>
 
@@ -145,7 +133,8 @@
       </div>
 
       <!-- Countdown boxes -->
-      <div id="countdown-timer" class="countdown-wrapper fade-in-up" aria-live="polite" aria-label="Hitung mundur hari pernikahan">
+      <div id="countdown-timer" class="countdown-wrapper fade-in-up" aria-live="polite"
+        aria-label="Hitung mundur hari pernikahan">
         <div class="countdown-box">
           <span id="countdown-days" class="countdown-number" aria-label="Hari">00</span>
           <span class="countdown-label">Hari</span>
@@ -189,8 +178,8 @@
 
       <div class="row g-4 justify-content-center">
 
-        <!-- Kartu Akad -->
-        <div class="col-md-5 fade-in-up">
+        <!-- Kartu Akad — col-12 (mobile full) + col-md-5 (tablet/desktop) -->
+        <div class="col-12 col-md-5 fade-in-up">
           <div class="event-card">
             <div class="event-card__icon" aria-hidden="true"><i class="bi bi-moon-stars"></i></div>
             <h3 class="event-card__title">Akad Nikah</h3>
@@ -203,8 +192,8 @@
           </div>
         </div>
 
-        <!-- Kartu Resepsi -->
-        <div class="col-md-5 fade-in-up" style="animation-delay:.15s">
+        <!-- Kartu Resepsi — col-12 (mobile full) + col-md-5 (tablet/desktop) -->
+        <div class="col-12 col-md-5 fade-in-up" style="animation-delay:.15s">
           <div class="event-card">
             <div class="event-card__icon" aria-hidden="true"><i class="bi bi-heart"></i></div>
             <h3 class="event-card__title">Resepsi Pernikahan</h3>
@@ -229,16 +218,12 @@
       <div class="maps-wrapper fade-in-up">
         <h4 class="maps-label"><i class="bi bi-map" aria-hidden="true"></i> Lokasi Acara</h4>
         <!-- *** GANTI: iframe Google Maps *** -->
+        <!-- Maps: tinggi dikontrol CSS (padding-bottom ratio 16:9 → proporsional di semua layar) -->
         <div class="maps-frame">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127749.57196027268!2d114.72541074999999!3d-3.4654849!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2de423c1eeeeeeef%3A0xeeeeeeeeeeeeeeee!2sBanjarbaru%2C%20South%20Kalimantan!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid"
-            width="100%"
-            height="380"
-            style="border:0;"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            title="Lokasi Acara Pernikahan">
+            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade" title="Lokasi Acara Pernikahan">
           </iframe>
         </div>
       </div>
@@ -262,84 +247,72 @@
         <div class="section-ornament" aria-hidden="true">✦ ✦ ✦</div>
       </div>
 
+      <!--
+        PANDUAN GALERI:
+        ▸ Tambah foto: salin satu blok <div class="col-..."> dan ganti src
+        ▸ Letakkan file di folder img/
+        ▸ Kolom: col-6 = 2-kolom di mobile | col-sm-4 = 3-kolom di ≥576px
+        ▸ gallery-item--tall = rasio portrait 3:4
+        ▸ gallery-item--wide = rasio panorama 16:7
+      -->
+      <!--
+        PANDUAN GALERI:
+        ▸ Tambah foto : salin satu blok <div class="col-..."> dan ganti src
+        ▸ Letakkan file di folder img/
+        ▸ Kolom       : col-6 = 2-kolom di mobile | col-sm-4 = 3-kolom di ≥576px
+        ▸ gallery-item--tall = rasio portrait 3:4
+        ▸ gallery-item--wide = rasio panorama 16:7
+        CATATAN: Foto langsung muncul (loading=eager, tanpa fade-in-up scroll trigger)
+      -->
       <div class="row g-3" id="gallery-grid">
 
-        <!-- Foto 1 — landscape besar -->
-        <div class="col-12 col-md-8 fade-in-up">
+        <!-- Foto 1 — landscape besar (desktop 8/12, mobile full) -->
+        <!-- *** GANTI: src foto *** -->
+        <div class="col-12 col-sm-8 gallery-col">
           <div class="gallery-item gallery-item--tall">
-            <!-- *** GANTI: src foto *** -->
-            <img
-              src="img/gallery-1.jpg"
-              onerror="this.src='https://placehold.co/800x520/e8d5b0/8b7355?text=Foto+1'"
-              alt="Momen bersama 1"
-              class="gallery-img"
-              loading="lazy"
-            />
+            <img src="img/gallery-1.jpg" onerror="this.src='https://placehold.co/800x520/e8d5b0/8b7355?text=Foto+1'"
+              alt="Momen bersama 1" class="gallery-img" loading="eager" decoding="async" />
           </div>
         </div>
 
-        <!-- Foto 2 — portrait kecil kanan atas -->
-        <div class="col-12 col-md-4 fade-in-up" style="animation-delay:.1s">
+        <!-- Foto 2 — portrait kanan (desktop 4/12, mobile full) -->
+        <div class="col-12 col-sm-4 gallery-col">
           <div class="gallery-item gallery-item--tall">
-            <img
-              src="img/gallery-2.jpg"
-              onerror="this.src='https://placehold.co/400x520/f0e4cc/8b7355?text=Foto+2'"
-              alt="Momen bersama 2"
-              class="gallery-img"
-              loading="lazy"
-            />
+            <img src="img/gallery-2.jpg" onerror="this.src='https://placehold.co/400x520/f0e4cc/8b7355?text=Foto+2'"
+              alt="Momen bersama 2" class="gallery-img" loading="eager" decoding="async" />
           </div>
         </div>
 
-        <!-- Foto 3 -->
-        <div class="col-6 col-md-4 fade-in-up" style="animation-delay:.15s">
+        <!-- Foto 3 — (desktop 4/12 | mobile 2 kolom) -->
+        <div class="col-6 col-sm-4 gallery-col">
           <div class="gallery-item">
-            <img
-              src="img/gallery-3.jpg"
-              onerror="this.src='https://placehold.co/400x340/faf3e8/8b7355?text=Foto+3'"
-              alt="Momen bersama 3"
-              class="gallery-img"
-              loading="lazy"
-            />
+            <img src="img/gallery-3.jpg" onerror="this.src='https://placehold.co/400x340/faf3e8/8b7355?text=Foto+3'"
+              alt="Momen bersama 3" class="gallery-img" loading="eager" decoding="async" />
           </div>
         </div>
 
         <!-- Foto 4 -->
-        <div class="col-6 col-md-4 fade-in-up" style="animation-delay:.2s">
+        <div class="col-6 col-sm-4 gallery-col">
           <div class="gallery-item">
-            <img
-              src="img/gallery-4.jpg"
-              onerror="this.src='https://placehold.co/400x340/e8d5b0/8b7355?text=Foto+4'"
-              alt="Momen bersama 4"
-              class="gallery-img"
-              loading="lazy"
-            />
+            <img src="img/gallery-4.jpg" onerror="this.src='https://placehold.co/400x340/e8d5b0/8b7355?text=Foto+4'"
+              alt="Momen bersama 4" class="gallery-img" loading="eager" decoding="async" />
           </div>
         </div>
 
         <!-- Foto 5 -->
-        <div class="col-12 col-md-4 fade-in-up" style="animation-delay:.25s">
+        <div class="col-6 col-sm-4 gallery-col">
           <div class="gallery-item">
-            <img
-              src="img/gallery-5.jpg"
-              onerror="this.src='https://placehold.co/400x340/f7f0e6/8b7355?text=Foto+5'"
-              alt="Momen bersama 5"
-              class="gallery-img"
-              loading="lazy"
-            />
+            <img src="img/gallery-5.jpg" onerror="this.src='https://placehold.co/400x340/f7f0e6/8b7355?text=Foto+5'"
+              alt="Momen bersama 5" class="gallery-img" loading="eager" decoding="async" />
           </div>
         </div>
 
-        <!-- Foto 6 — landscape penuh -->
-        <div class="col-12 fade-in-up" style="animation-delay:.3s">
-          <div class="gallery-item">
-            <img
-              src="img/gallery-6.jpg"
+        <!-- Foto 6 — panorama penuh lebar -->
+        <div class="col-12 gallery-col">
+          <div class="gallery-item gallery-item--wide">
+            <img src="img/gallery-6.jpg"
               onerror="this.src='https://placehold.co/1200x380/e8d5b0/8b7355?text=Foto+6+-+Panorama'"
-              alt="Momen bersama 6"
-              class="gallery-img"
-              loading="lazy"
-            />
+              alt="Momen bersama 6" class="gallery-img" loading="eager" decoding="async" />
           </div>
         </div>
 

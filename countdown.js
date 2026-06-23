@@ -21,11 +21,11 @@
   /* ===== Jangan ubah kode di bawah ini ===== */
 
   var elTimer = document.getElementById('countdown-timer');
-  var elDone  = document.getElementById('countdown-done');
-  var elDays  = document.getElementById('countdown-days');
+  var elDone = document.getElementById('countdown-done');
+  var elDays = document.getElementById('countdown-days');
   var elHours = document.getElementById('countdown-hours');
-  var elMins  = document.getElementById('countdown-minutes');
-  var elSecs  = document.getElementById('countdown-seconds');
+  var elMins = document.getElementById('countdown-minutes');
+  var elSecs = document.getElementById('countdown-seconds');
 
   if (!elTimer || !elDone || !elDays || !elHours || !elMins || !elSecs) return;
 
@@ -38,27 +38,27 @@
   var prevValues = { d: null, h: null, m: null, s: null };
 
   function updateCountdown() {
-    var now  = Date.now(); // Milidetik sejak epoch — lebih akurat dari new Date()
+    var now = Date.now(); // Milidetik sejak epoch — lebih akurat dari new Date()
     var diff = WEDDING_TIMESTAMP - now;
 
     if (diff <= 0) {
       /* Acara sudah lewat */
       elTimer.style.display = 'none';
-      elDone.style.display  = 'block';
+      elDone.style.display = 'block';
       return;
     }
 
     /* Konversi milidetik → komponen waktu */
-    var days    = Math.floor(diff / 86400000);
-    var hours   = Math.floor((diff % 86400000) / 3600000);
-    var minutes = Math.floor((diff % 3600000)  / 60000);
-    var seconds = Math.floor((diff % 60000)    / 1000);
+    var days = Math.floor(diff / 86400000);
+    var hours = Math.floor((diff % 86400000) / 3600000);
+    var minutes = Math.floor((diff % 3600000) / 60000);
+    var seconds = Math.floor((diff % 60000) / 1000);
 
     /* Update DOM hanya jika nilai berubah → mengurangi reflow */
-    if (days    !== prevValues.d) { elDays.textContent  = pad(days);    prevValues.d = days;    }
-    if (hours   !== prevValues.h) { elHours.textContent = pad(hours);   prevValues.h = hours;   }
-    if (minutes !== prevValues.m) { elMins.textContent  = pad(minutes); prevValues.m = minutes; }
-    if (seconds !== prevValues.s) { elSecs.textContent  = pad(seconds); prevValues.s = seconds; }
+    if (days !== prevValues.d) { elDays.textContent = pad(days); prevValues.d = days; }
+    if (hours !== prevValues.h) { elHours.textContent = pad(hours); prevValues.h = hours; }
+    if (minutes !== prevValues.m) { elMins.textContent = pad(minutes); prevValues.m = minutes; }
+    if (seconds !== prevValues.s) { elSecs.textContent = pad(seconds); prevValues.s = seconds; }
   }
 
   /* ----------------------------------------------------------------
