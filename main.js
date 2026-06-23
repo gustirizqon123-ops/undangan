@@ -57,59 +57,37 @@ window.addEventListener("load", function () {
 })();
 
 /* ============================================================
-   MUSIK LATAR — Kontrol play/pause otomatis
-   
-   Cara kerja:
-   - Musik otomatis play saat pengunjung pertama klik/tap layar
-     (Browser modern memblokir autoplay sebelum ada interaksi)
-   - Tombol ▶/⏸ di pojok kanan bawah untuk kontrol manual
+   MUSIK LATAR — Auto play, tidak bisa di-pause pengunjung
 ============================================================ */
 
-const bgMusic  = document.getElementById("bg-music");
-const musicBtn = document.getElementById("music-btn");
-const musicIcon = document.getElementById("music-icon");
+const bgMusic = document.getElementById("bg-music");
 
-// *** GANTI: Volume musik (0.0 = mati, 1.0 = penuh) ***
+// Volume musik (0.0 - 1.0)
 bgMusic.volume = 0.4;
 
-// Fungsi untuk play musik
+// Fungsi play musik
 function playMusic() {
+  bgMusic.play().catch(function () {
+    // Browser blokir autoplay — tunggu interaksi pertama
+  });
+}
+
+// Auto play saat halaman dimuat
+playMusic();
+
+// Jika browser blokir, coba play saat pertama kali ada interaksi
+document.addEventListener("click",      playMusic, { once: true });
+document.addEventListener("scroll",     playMusic, { once: true });
+document.addEventListener("touchstart", playMusic, { once: true });
+
+// Jika musik berhenti karena alasan apapun, langsung play lagi
+bgMusic.addEventListener("pause", function () {
   bgMusic.play();
-  musicBtn.classList.add("playing");
-  musicIcon.textContent = "⏸";  // Ikon pause
-}
-
-// Fungsi untuk pause musik
-function pauseMusic() {
-  bgMusic.pause();
-  musicBtn.classList.remove("playing");
-  musicIcon.textContent = "▶";  // Ikon play
-}
-
-// Toggle play/pause saat tombol diklik
-musicBtn.addEventListener("click", function () {
-  if (bgMusic.paused) {
-    playMusic();
-  } else {
-    pauseMusic();
-  }
 });
 
-// Auto-play saat pengunjung pertama kali interaksi dengan halaman
-// (klik, scroll, atau sentuh layar)
-let autoPlayTriggered = false;
-
-function triggerAutoPlay() {
-  if (!autoPlayTriggered) {
-    autoPlayTriggered = true;
-    playMusic();
-    // Hapus event listener setelah dijalankan sekali
-    document.removeEventListener("click", triggerAutoPlay);
-    document.removeEventListener("scroll", triggerAutoPlay);
-    document.removeEventListener("touchstart", triggerAutoPlay);
+// Pastikan musik tidak bisa di-mute atau diganti volume dari luar
+bgMusic.addEventListener("volumechange", function () {
+  if (bgMusic.volume < 0.4) {
+    bgMusic.volume = 0.4;
   }
-}
-
-document.addEventListener("click",      triggerAutoPlay);
-document.addEventListener("scroll",     triggerAutoPlay);
-document.addEventListener("touchstart", triggerAutoPlay);
+});
