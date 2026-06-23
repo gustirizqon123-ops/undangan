@@ -55,3 +55,61 @@ window.addEventListener("load", function () {
     observer.observe(el);
   });
 })();
+
+/* ============================================================
+   MUSIK LATAR — Kontrol play/pause otomatis
+   
+   Cara kerja:
+   - Musik otomatis play saat pengunjung pertama klik/tap layar
+     (Browser modern memblokir autoplay sebelum ada interaksi)
+   - Tombol ▶/⏸ di pojok kanan bawah untuk kontrol manual
+============================================================ */
+
+const bgMusic  = document.getElementById("bg-music");
+const musicBtn = document.getElementById("music-btn");
+const musicIcon = document.getElementById("music-icon");
+
+// *** GANTI: Volume musik (0.0 = mati, 1.0 = penuh) ***
+bgMusic.volume = 0.4;
+
+// Fungsi untuk play musik
+function playMusic() {
+  bgMusic.play();
+  musicBtn.classList.add("playing");
+  musicIcon.textContent = "⏸";  // Ikon pause
+}
+
+// Fungsi untuk pause musik
+function pauseMusic() {
+  bgMusic.pause();
+  musicBtn.classList.remove("playing");
+  musicIcon.textContent = "▶";  // Ikon play
+}
+
+// Toggle play/pause saat tombol diklik
+musicBtn.addEventListener("click", function () {
+  if (bgMusic.paused) {
+    playMusic();
+  } else {
+    pauseMusic();
+  }
+});
+
+// Auto-play saat pengunjung pertama kali interaksi dengan halaman
+// (klik, scroll, atau sentuh layar)
+let autoPlayTriggered = false;
+
+function triggerAutoPlay() {
+  if (!autoPlayTriggered) {
+    autoPlayTriggered = true;
+    playMusic();
+    // Hapus event listener setelah dijalankan sekali
+    document.removeEventListener("click", triggerAutoPlay);
+    document.removeEventListener("scroll", triggerAutoPlay);
+    document.removeEventListener("touchstart", triggerAutoPlay);
+  }
+}
+
+document.addEventListener("click",      triggerAutoPlay);
+document.addEventListener("scroll",     triggerAutoPlay);
+document.addEventListener("touchstart", triggerAutoPlay);

@@ -726,3 +726,54 @@ a {
     padding: 2rem 1.2rem;
   }
 }
+
+/* ============================================================
+   MUSIC BUTTON — Tombol play/pause mengambang
+============================================================ */
+
+/* Tombol bulat emas di pojok kanan bawah */
+#music-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999;
+
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid var(--color-gold);
+  background: var(--color-white);
+  color: var(--color-gold-dark);
+  font-size: 1.1rem;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 4px 20px rgba(201, 168, 76, 0.35);
+  transition: background 0.3s, transform 0.3s;
+}
+
+#music-btn:hover {
+  background: var(--color-gold);
+  color: var(--color-white);
+  transform: scale(1.1);
+}
+
+/* Animasi berputar saat musik sedang play */
+#music-btn.playing {
+  animation: rotate-btn 4s linear infinite;
+}
+
+@keyframes rotate-btn {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Hentikan rotasi saat hover */
+#music-btn.playing:hover {
+  animation: none;
+  background: var(--color-gold);
+  color: var(--color-white);
+}

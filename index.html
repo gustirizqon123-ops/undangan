@@ -29,6 +29,24 @@
 <body>
 
   <!-- ============================================================
+     AUDIO PLAYER — Musik latar website
+     Autoplay dengan tombol play/pause di pojok layar
+============================================================ -->
+
+<!-- Tag audio HTML5 — tidak terlihat, dikendalikan tombol -->
+<audio id="bg-music" loop preload="auto">
+  <!-- *** GANTI: nama file lagu kamu *** -->
+  <source src="audio/lagu.mp3" type="audio/mpeg" />
+  Browser kamu tidak mendukung audio.
+</audio>
+
+<!-- Tombol musik mengambang di pojok kanan bawah -->
+<button id="music-btn" title="Play/Pause Musik">
+  <span id="music-icon">▶</span>
+</button>
+
+
+  <!-- ============================================================
        LOADING SCREEN — Tampil sebelum halaman dimuat
   ============================================================ -->
   <div id="loading-screen">
